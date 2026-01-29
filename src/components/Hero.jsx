@@ -1,6 +1,11 @@
+import profile from "../assets/profile.jpg";
+
 const Hero = () => {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white pt-16">
+    <section
+      id="home"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white pt-16"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           {/* Profile Image */}
@@ -8,11 +13,11 @@ const Hero = () => {
             <div className="relative">
               <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-400 shadow-2xl">
                 <img
-                  src="./src/assets/profile.jpg"
+                  src={profile}
                   alt="Ali Yusup Ramadhan"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "https://dummyimage.com/400x400/1e40af/ffffff&text=Ali+Yusup";
+                    e.currentTarget.style.display = "none";
                   }}
                 />
               </div>
@@ -35,7 +40,7 @@ const Hero = () => {
               Memahami FIFO, FEFO, dan LIFO. Untuk saat ini saya masih menempuh studi di salah satu
               perguruan tinggi dan memiliki jurusan teknik informatika.
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <a
