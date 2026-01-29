@@ -8,11 +8,11 @@ const Hero = () => {
             <div className="relative">
               <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-400 shadow-2xl">
                 <img
-                  src="/src/assets/profile.jpg"
+                  src="./src/assets/profile.jpg"
                   alt="Ali Yusup Ramadhan"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x400/1e40af/ffffff?text=Ali+Yusup";
+                    e.target.src = "https://dummyimage.com/400x400/1e40af/ffffff&text=Ali+Yusup";
                   }}
                 />
               </div>
