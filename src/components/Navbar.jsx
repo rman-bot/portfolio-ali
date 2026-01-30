@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '#home' },
@@ -13,22 +22,25 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-gray-900 text-white fixed w-full z-50 shadow-lg">
+    <nav className={`text-white fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-gray-900 shadow-lg' : 'bg-gray-900/95 backdrop-blur-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-blue-400">Ali Yusup</h1>
+          {/* Logo with animation */}
+          <div className="flex-shrink-0 animate-slide-right">
+            <h1 className="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors duration-300 cursor-pointer">
+              Ali Yusup
+            </h1>
           </div>
 
-          {/* Desktop Menu */}
+          {/* Desktop Menu with staggered animation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {navLinks.map((link) => (
+              {navLinks.map((link, index) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="hover:bg-gray-700 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+                  className="hover:bg-gray-700 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition duration-300 animate-slide-up"
+                  style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'backwards' }}
                 >
                   {link.name}
                 </a>
@@ -40,7 +52,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none transition-all duration-300 hover:scale-110"
             >
               <svg
                 className="h-6 w-6"
@@ -69,15 +81,16 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu with slide animation */}
       {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((link) => (
+        <div className="md:hidden animate-slide-down">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+            {navLinks.map((link, index) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="hover:bg-gray-700 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium"
+                className="hover:bg-gray-700 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}

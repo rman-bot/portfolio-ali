@@ -1,4 +1,26 @@
+import { useState, useEffect, useRef } from 'react';
+
 const Contact = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const contactInfo = [
     {
       icon: (
@@ -9,7 +31,7 @@ const Contact = () => {
       title: 'Phone',
       value: '+62 89536004303',
       link: 'tel:+6289536004303',
-      color: 'from-green-400 to-green-600',
+      color: 'from-green-400 to-emerald-600',
     },
     {
       icon: (
@@ -20,7 +42,7 @@ const Contact = () => {
       title: 'Email',
       value: 'aliyusupr@gmail.com',
       link: 'mailto:aliyusupr@gmail.com',
-      color: 'from-blue-400 to-blue-600',
+      color: 'from-blue-400 to-cyan-600',
     },
     {
       icon: (
@@ -30,19 +52,36 @@ const Contact = () => {
         </svg>
       ),
       title: 'Location',
-      value: 'Jl. Kemangsari 4c no. 1, Jakwarsa Pondok Gede, 17412',
+      value: 'Jl. Kemangsari 4c no. 1, Jatiwaringin Pondok Gede, 17412',
       link: '#',
-      color: 'from-red-400 to-red-600',
+      color: 'from-red-400 to-pink-600',
     },
   ];
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
-          <div className="w-20 h-1 bg-blue-400 mx-auto mb-4"></div>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+    <section id="contact" className="py-20 relative overflow-hidden animated-gradient text-white" ref={sectionRef}>
+      {/* Animated blur circles */}
+      <div className="blur-circles">
+        <div className="blur-circle blur-circle-1"></div>
+        <div className="blur-circle blur-circle-2"></div>
+        <div className="blur-circle blur-circle-3"></div>
+      </div>
+
+      {/* Floating particles */}
+      <div className="particles">
+        {[...Array(10)].map((_, i) => (
+          <span key={i}></span>
+        ))}
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 grid-pattern opacity-10"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 text-transparent bg-clip-text drop-shadow-lg">Get In Touch</h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mb-4"></div>
+          <p className="text-gray-200 max-w-2xl mx-auto backdrop-blur-sm bg-white/5 p-4 rounded-lg drop-shadow-md">
             Jangan ragu untuk menghubungi saya. Saya selalu terbuka untuk diskusi proyek baru, ide kreatif, atau peluang menjadi bagian dari visi Anda.
           </p>
         </div>
@@ -52,30 +91,31 @@ const Contact = () => {
             <a
               key={index}
               href={info.link}
-              className="group bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 hover:bg-opacity-20 transition duration-300 border border-white border-opacity-20 hover:border-opacity-40"
+              className={`group bg-white/10 backdrop-blur-lg rounded-xl p-6 hover:bg-white/20 transition-all duration-500 border border-white/20 hover:border-white/40 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} glow-effect`}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <div className={`w-16 h-16 bg-gradient-to-br ${info.color} rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition duration-300 mx-auto`}>
-                <div className="text-white">{info.icon}</div>
+              <div className={`w-16 h-16 bg-gradient-to-br ${info.color} rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 mx-auto animate-float shadow-lg`}>
+                <div className="text-white drop-shadow-lg">{info.icon}</div>
               </div>
-              <h3 className="text-xl font-bold mb-2 text-center">{info.title}</h3>
-              <p className="text-gray-300 text-center break-words">{info.value}</p>
+              <h3 className="text-xl font-bold mb-2 text-center group-hover:text-cyan-300 transition-colors drop-shadow-md">{info.title}</h3>
+              <p className="text-gray-200 text-center break-words group-hover:text-white transition-colors">{info.value}</p>
             </a>
           ))}
         </div>
 
         {/* Social Links or Additional Info */}
-        <div className="text-center mt-12 pt-8 border-t border-white border-opacity-20">
-          <p className="text-gray-300 mb-4">Let's connect and create something amazing together!</p>
-          <div className="flex justify-center space-x-4">
+        <div className={`text-center mt-12 pt-8 border-t border-white/20 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <p className="text-gray-200 mb-4 animate-pulse drop-shadow-md backdrop-blur-sm bg-white/5 p-3 rounded-lg inline-block">Let's connect and create something amazing together! ✨</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
             <a
               href="mailto:aliyusupr@gmail.com"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold transition duration-300 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 inline-block glow-effect"
             >
               Send Email
             </a>
             <a
               href="tel:+6289536004303"
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition duration-300 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-green-500/50 hover:scale-105 inline-block glow-effect"
             >
               Call Now
             </a>
