@@ -23,9 +23,6 @@ function App() {
           <p className="text-gray-400">
             © {new Date().getFullYear()} Ali Yusup Ramadhan. All rights reserved.
           </p>
-          <p className="text-gray-500 text-sm mt-2">
-            Built with React + Tailwind CSS
-          </p>
         </div>
       </footer>
     </div>
