@@ -41,7 +41,7 @@ const Hero = () => {
             <div className="relative animate-float">
               <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-blue-400 shadow-2xl hover:shadow-blue-500/50 transition-shadow duration-300 hover:scale-105 transform transition-transform glow-effect">
                 <img
-                  src="/src/assets/profile.jpg"
+                  src={profile}
                   alt="Ali Yusup Ramadhan"
                   className="w-full h-full object-cover"
                   onError={(e) => {
