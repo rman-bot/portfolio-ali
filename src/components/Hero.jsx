@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import profile from "../assets/profile.jpg";
+
 
 const Hero = () => {
   const [text, setText] = useState('');
